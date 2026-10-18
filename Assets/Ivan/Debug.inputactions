@@ -1,0 +1,36 @@
+{
+    "version": 1,
+    "name": "Debug",
+    "maps": [
+        {
+            "name": "Debug",
+            "id": "f4308dfa-7346-48b0-80c5-e49326ecf80c",
+            "actions": [
+                {
+                    "name": "BUTTON",
+                    "type": "Button",
+                    "id": "993411bd-9786-42da-b272-77afac0becb4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8d982db4-77e4-40c4-afde-beab39a25254",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BUTTON",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
