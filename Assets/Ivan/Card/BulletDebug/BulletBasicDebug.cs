@@ -23,7 +23,7 @@ public class BulletBasicDebug : MonoBehaviour
     void MoveBullet()
     {
         // Moves the bullet forward relative to its rotation
-        transform.Translate(Vector3.right * speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
     IEnumerator DeleteBulletRoutine()
