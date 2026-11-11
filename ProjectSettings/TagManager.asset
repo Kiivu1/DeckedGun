@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Roja
   - Verde
+  - Tienda
   layers:
   - Default
   - TransparentFX
