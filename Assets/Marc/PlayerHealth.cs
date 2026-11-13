@@ -1,44 +1,114 @@
+using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public float vidaMaxima = 100f;
     public float vidaActual = 100f;
     public Slider barraDeVida;
-    private float tiempoSiguienteAccion = 0f; // Controla el tiempo de espera
+
+    [Header("Invencibilidad")]
+    public float tiempoInvencible = 0.5f;   // Segundos sin recibir daÃ±o tras un golpe (evita que varios golpes a la vez se sumen)
+    public Color colorGolpe = Color.white;  // Color de la barra mientras dura la invencibilidad
+
+    [Header("Plataformas")]
+    public float danoPlataforma = 20f;
+    public float esperaPlataforma = 1f;     // Segundos entre cada daÃ±o/curaciÃ³n de las plataformas
+
+    private float finInvencibilidad = 0f;     // Time.time hasta el que no se recibe daÃ±o
+    private float tiempoSiguientePlataforma = 0f;
+    private bool muerto = false;
+    private Image rellenoBarra;
+    private Color colorRelleno;
+
+    // Se lanza al morir el jugador
+    public event Action OnPlayerDeath;
+
+    public bool EsInvencible => Time.time < finInvencibilidad;
 
     void Start()
     {
-        barraDeVida.maxValue = 100f;
+        barraDeVida.maxValue = vidaMaxima;
         barraDeVida.value = vidaActual;
+
+        // Imagen de relleno de la barra, para hacerla parpadear al recibir daÃ±o
+        if (barraDeVida.fillRect != null)
+        {
+            rellenoBarra = barraDeVida.fillRect.GetComponent<Image>();
+            if (rellenoBarra != null) colorRelleno = rellenoBarra.color;
+        }
     }
 
-    // Este método es exclusivo para detectar choques en Character Controllers
+    // Quita vida al jugador, salvo que sea invencible. La usan los enemigos y la plataforma roja
+    public void TakeDamage(float cantidad)
+    {
+        if (muerto || EsInvencible) return;
+
+        vidaActual -= cantidad;
+        ActualizarVida();
+
+        finInvencibilidad = Time.time + tiempoInvencible;
+        if (rellenoBarra != null)
+        {
+            StopAllCoroutines();
+            StartCoroutine(ParpadeoBarra());
+        }
+
+        if (vidaActual <= 0f) Morir();
+    }
+
+    // Cura al jugador. La invencibilidad no bloquea las curaciones
+    public void Heal(float cantidad)
+    {
+        if (muerto) return;
+
+        vidaActual += cantidad;
+        ActualizarVida();
+    }
+
+    // Este mÃ©todo es exclusivo para detectar choques en Character Controllers
     void OnControllerColliderHit(ControllerColliderHit colision)
     {
-        // Comprueba si ha pasado 1 segundo desde la última acción
-        if (Time.time >= tiempoSiguienteAccion)
+        // Las plataformas solo actÃºan una vez cada esperaPlataforma segundos
+        if (Time.time < tiempoSiguientePlataforma) return;
+
+        if (colision.gameObject.CompareTag("Roja"))
         {
-            if (colision.gameObject.CompareTag("Roja"))
-            {
-                vidaActual -= 20f;
-                ActualizarVida();
-            }
-            else if (colision.gameObject.CompareTag("Verde"))
-            {
-                vidaActual += 20f;
-                ActualizarVida();
-            }
+            TakeDamage(danoPlataforma);
+            tiempoSiguientePlataforma = Time.time + esperaPlataforma;
+        }
+        else if (colision.gameObject.CompareTag("Verde"))
+        {
+            Heal(danoPlataforma);
+            tiempoSiguientePlataforma = Time.time + esperaPlataforma;
         }
     }
 
     void ActualizarVida()
     {
-        // Clamp evita que la vida baje de 0 o suba de 100
-        vidaActual = Mathf.Clamp(vidaActual, 0, 100f);
+        // Clamp evita que la vida baje de 0 o suba del mÃ¡ximo
+        vidaActual = Mathf.Clamp(vidaActual, 0f, vidaMaxima);
         barraDeVida.value = vidaActual;
+    }
 
-        // Añade 1 segundo de espera antes de volver a recibir daño o curación
-        tiempoSiguienteAccion = Time.time + 1f;
+    void Morir()
+    {
+        muerto = true;
+        Debug.Log("Player died");
+        OnPlayerDeath?.Invoke();
+
+        // De momento se reinicia la escena. MÃ¡s adelante, pantalla de Game Over
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    // La barra cambia a colorGolpe mientras el jugador es invencible
+    IEnumerator ParpadeoBarra()
+    {
+        rellenoBarra.color = colorGolpe;
+        yield return new WaitForSeconds(tiempoInvencible);
+        rellenoBarra.color = colorRelleno;
     }
 }

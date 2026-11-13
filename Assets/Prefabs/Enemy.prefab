@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 5100000000000000007}
   - component: {fileID: 4330902643240625820}
   - component: {fileID: 8239686493399463949}
+  - component: {fileID: 5100000000000000008}
+  - component: {fileID: 5100000000000000009}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -193,3 +195,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4ea780b3d191544afcdd492b6bd0f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyChase
+--- !u!114 &5100000000000000008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5100000000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3e419c2b8344d5c8c64847631c63045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 30
+--- !u!114 &5100000000000000009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5100000000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13cbf4174faa403aabae9756bd4efa56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
+  damage: 10
+  attackRange: 2.5
+  attackCooldown: 1.2
+  maxFirstAttackDelay: 0.5

@@ -14,9 +14,12 @@ public class EnemyHitbox : MonoBehaviour
 
     private Renderer rend;    // Renderer del enemigo, para poder cambiarle el color
     private Color baseColor;  // Color original, para restaurarlo después del parpadeo
+    private EnemyHealth health; // Vida del enemigo (puede estar en este objeto o en un padre)
 
     void Awake()
     {
+        health = GetComponentInParent<EnemyHealth>();
+
         // Busca el Renderer en este objeto o en sus hijos (por si la malla está en un hijo)
         rend = GetComponentInChildren<Renderer>();
 
@@ -35,17 +38,20 @@ public class EnemyHitbox : MonoBehaviour
         // Si lo que ha entrado no es una bala (suelo, jugador...), lo ignoramos
         if (bullet == null) return;
 
-        OnHit(bullet.gameObject);
+        OnHit(bullet.gameObject, bullet.Damage);
     }
 
     // Qué pasa cuando una bala impacta. Es público para poder llamarlo desde otros scripts
-    // (por ejemplo, si más adelante se dispara con raycast). Aquí iría la lógica de quitar vida.
-    public void OnHit(GameObject bullet)
+    // (por ejemplo, si más adelante se dispara con raycast).
+    public void OnHit(GameObject bullet, float damage)
     {
         Debug.Log($"{name} hit by {bullet.name}");
 
         // La bala desaparece al impactar
         Destroy(bullet);
+
+        // La vida la gestiona EnemyHealth; si muere, destruye el enemigo
+        if (health != null) health.TakeDamage(damage);
 
         if (rend != null)
         {

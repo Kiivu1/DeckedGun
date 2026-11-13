@@ -91,10 +91,7 @@ public class InventoryCard : MonoBehaviour
 
             if (currCard != null && currCard.weapon != null)
             {
-                if (currCard.weapon.bulletPrefab != null && shootTrans != null)
-                {
-                    Instantiate(currCard.weapon.bulletPrefab, shootTrans.position, shootTrans.rotation);
-                }
+                SpawnBullet(currCard.weapon);
 
                 currCard.currAmmo--;
 
@@ -108,11 +105,19 @@ public class InventoryCard : MonoBehaviour
         else if (cardBase != null)
         {
             // Fallback to base infinite weapon when deck is empty
-            if (cardBase.bulletPrefab != null && shootTrans != null)
-            {
-                Instantiate(cardBase.bulletPrefab, shootTrans.position, shootTrans.rotation);
-            }
+            SpawnBullet(cardBase);
         }
+    }
+
+    // Spawns the weapon's bullet at shootTrans and gives it the card's damage
+    void SpawnBullet(CardWeapon weapon)
+    {
+        if (weapon.bulletPrefab == null || shootTrans == null) return;
+
+        GameObject bulletObj = Instantiate(weapon.bulletPrefab, shootTrans.position, shootTrans.rotation);
+
+        BulletBasicDebug bullet = bulletObj.GetComponent<BulletBasicDebug>();
+        if (bullet != null) bullet.Damage = weapon.damage;
     }
 
     public void AddCardDebug()

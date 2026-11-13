@@ -6,4 +6,5 @@ public class CardWeapon : CardItem
 {
     public int cardAmmoBase;        //The BaseAmmo
     public GameObject bulletPrefab; //thing to shoot
+    public float damage = 10f;      //damage of each bullet
 }
