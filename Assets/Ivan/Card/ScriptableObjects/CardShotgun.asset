@@ -15,6 +15,6 @@ MonoBehaviour:
   cardName: Shotgun
   cardDesc: ... its a Shotgun. you point at a direction, then you point at the other
   cardSprite: {fileID: 0}
-  cardValue: 0
+  cardValue: 100
   cardAmmoBase: 5
   bulletPrefab: {fileID: 7321786511380070533, guid: e7e3ef7198caafd03b494fbfa9d64979, type: 3}

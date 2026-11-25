@@ -15,6 +15,6 @@ MonoBehaviour:
   cardName: Common Gun
   cardDesc: You neverending card.
   cardSprite: {fileID: 0}
-  cardValue: 0
+  cardValue: 50
   cardAmmoBase: 10
   bulletPrefab: {fileID: 7321786511380070533, guid: e7e3ef7198caafd03b494fbfa9d64979, type: 3}
