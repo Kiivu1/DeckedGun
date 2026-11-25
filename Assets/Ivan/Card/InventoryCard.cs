@@ -19,17 +19,25 @@ public class InventoryCard : MonoBehaviour
     private InputAction shootAct;
     private InputAction addCardAct;
 
-    void Start()
+    void Awake()
     {
         shootAct = new InputAction(binding: "<Keyboard>/2");
         shootAct.performed += ctx => ShootCard();
-        shootAct.Enable();
 
         addCardAct = new InputAction(binding: "<Keyboard>/1");
         addCardAct.performed += ctx => AddCardDebug();
-        addCardAct.Enable();
+    }
 
+    void Start()
+    {
         SyncDeck();
+    }
+
+    // Se activan aquí (y no en Start) para que vuelvan a funcionar cuando el componente se reactiva (por ejemplo, al cerrar la tienda)
+    void OnEnable()
+    {
+        shootAct?.Enable();
+        addCardAct?.Enable();
     }
 
     void OnDisable()
@@ -120,12 +128,17 @@ public class InventoryCard : MonoBehaviour
         if (bullet != null) bullet.Damage = weapon.damage;
     }
 
+    // Añade una carta al mazo con la munición llena. La usa la tienda
+    public void AnadirCarta(CardWeapon carta)
+    {
+        if (carta == null) return;
+
+        cardW.Add(carta);
+        cardDeck.Add(new CardInst(carta));
+    }
+
     public void AddCardDebug()
     {
-        if (debugCard != null)
-        {
-            cardW.Add(debugCard);
-            cardDeck.Add(new CardInst(debugCard));
-        }
+        AnadirCarta(debugCard);
     }
 }
