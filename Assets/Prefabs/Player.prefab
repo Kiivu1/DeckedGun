@@ -908,6 +908,7 @@ GameObject:
   - component: {fileID: 3611069325777385111}
   - component: {fileID: 1293898742581725056}
   - component: {fileID: 6119292891380743666}
+  - component: {fileID: 4815162342108151623}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1121,3 +1122,15 @@ MonoBehaviour:
   txt: {fileID: 6970062577261004066}
   debugCard: {fileID: 11400000, guid: 50aae8e0aa3c116ed876ad33e3e515d9, type: 2}
   shootTrans: {fileID: 7965132235976777344}
+--- !u!114 &4815162342108151623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9023952381333883579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 891a2f865ff14249886f27584ae54248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BarraInventario
