@@ -17,15 +17,19 @@ public class InventoryCard : MonoBehaviour
     public Transform shootTrans;
 
     private InputAction shootAct;
-    private InputAction addCardAct;
+
+    // Posición del mazo del arma que se está usando (0 = primera casilla). Se cambia con las teclas 1-9
+    private int armaElegida = 0;
+
+    // Cartas del mazo (solo lectura). La usa la barra de inventario para dibujarlas
+    public IReadOnlyList<CardInst> Mazo => cardDeck;
+    public int ArmaElegida => armaElegida;
 
     void Awake()
     {
-        shootAct = new InputAction(binding: "<Keyboard>/2");
+        // Se dispara con el clic izquierdo
+        shootAct = new InputAction(binding: "<Mouse>/leftButton");
         shootAct.performed += ctx => ShootCard();
-
-        addCardAct = new InputAction(binding: "<Keyboard>/1");
-        addCardAct.performed += ctx => AddCardDebug();
     }
 
     void Start()
@@ -37,18 +41,38 @@ public class InventoryCard : MonoBehaviour
     void OnEnable()
     {
         shootAct?.Enable();
-        addCardAct?.Enable();
     }
 
     void OnDisable()
     {
         shootAct?.Disable();
-        addCardAct?.Disable();
     }
 
     void Update()
     {
+        ElegirArmaConTeclas();
         UpdateUI();
+    }
+
+    // Las teclas 1-9 eligen el arma de esa casilla de la barra
+    void ElegirArmaConTeclas()
+    {
+        if (Keyboard.current == null) return;
+
+        for (int i = 0; i < 9; i++)
+        {
+            if (Keyboard.current[Key.Digit1 + i].wasPressedThisFrame)
+            {
+                ElegirArma(i);
+                return;
+            }
+        }
+    }
+
+    // Cambia al arma de esa posición, solo si hay una carta ahí
+    public void ElegirArma(int posicion)
+    {
+        if (posicion >= 0 && posicion < cardDeck.Count) armaElegida = posicion;
     }
 
     void SyncDeck()
@@ -95,7 +119,9 @@ public class InventoryCard : MonoBehaviour
         // FIXED: Check if deck has cards BEFORE trying to access index [0] to avoid crashes
         if (cardDeck.Count > 0)
         {
-            CardInst currCard = cardDeck[0];
+            // Dispara con el arma elegida con las teclas 1-9
+            armaElegida = Mathf.Clamp(armaElegida, 0, cardDeck.Count - 1);
+            CardInst currCard = cardDeck[armaElegida];
 
             if (currCard != null && currCard.weapon != null)
             {
@@ -105,8 +131,11 @@ public class InventoryCard : MonoBehaviour
 
                 if (currCard.currAmmo <= 0)
                 {
-                    cardDeck.RemoveAt(0);
-                    if (cardW.Count > 0) cardW.RemoveAt(0); // Keep both lists synced
+                    cardDeck.RemoveAt(armaElegida);
+                    if (armaElegida < cardW.Count) cardW.RemoveAt(armaElegida); // Keep both lists synced
+
+                    // Si era la última casilla, pasa a la anterior
+                    if (armaElegida >= cardDeck.Count) armaElegida = Mathf.Max(0, cardDeck.Count - 1);
                 }
             }
         }
