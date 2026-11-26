@@ -14,9 +14,6 @@ public class InventoryCard : MonoBehaviour
     [Header("Debug")]
     public TMP_Text txt; 
     public CardWeapon debugCard;
-    public Transform shootTrans;
-
-    private InputAction shootAct;
 
     // Posición del mazo del arma que se está usando (0 = primera casilla). Se cambia con las teclas 1-9
     private int armaElegida = 0;
@@ -25,28 +22,12 @@ public class InventoryCard : MonoBehaviour
     public IReadOnlyList<CardInst> Mazo => cardDeck;
     public int ArmaElegida => armaElegida;
 
-    void Awake()
-    {
-        // Se dispara con el clic izquierdo
-        shootAct = new InputAction(binding: "<Mouse>/leftButton");
-        shootAct.performed += ctx => ShootCard();
-    }
-
     void Start()
     {
         SyncDeck();
     }
 
     // Se activan aquí (y no en Start) para que vuelvan a funcionar cuando el componente se reactiva (por ejemplo, al cerrar la tienda)
-    void OnEnable()
-    {
-        shootAct?.Enable();
-    }
-
-    void OnDisable()
-    {
-        shootAct?.Disable();
-    }
 
     void Update()
     {
@@ -114,47 +95,54 @@ public class InventoryCard : MonoBehaviour
         }
     }
 
-    public void ShootCard()
+ // WeaponController consulta qué arma debe disparar.
+    public CardWeapon GetCurrentWeapon()
     {
-        // FIXED: Check if deck has cards BEFORE trying to access index [0] to avoid crashes
+        if (cardDeck.Count == 0)
+        {
+            return cardBase;
+        }
+
+        armaElegida = Mathf.Clamp(
+            armaElegida, 0, cardDeck.Count - 1
+        );
+
+        return cardDeck[armaElegida]?.weapon;
+    }
+
+    // WeaponController llama aquí después de crear la bala.
+    public void ConsumeAmmo()
+    {
+        // Sin cartas se usa el arma base, con munición infinita.
         if (cardDeck.Count > 0)
         {
-            // Dispara con el arma elegida con las teclas 1-9
-            armaElegida = Mathf.Clamp(armaElegida, 0, cardDeck.Count - 1);
+            armaElegida = Mathf.Clamp(
+                armaElegida, 0, cardDeck.Count - 1
+            );
+
             CardInst currCard = cardDeck[armaElegida];
 
             if (currCard != null && currCard.weapon != null)
             {
-                SpawnBullet(currCard.weapon);
-
                 currCard.currAmmo--;
 
                 if (currCard.currAmmo <= 0)
                 {
                     cardDeck.RemoveAt(armaElegida);
-                    if (armaElegida < cardW.Count) cardW.RemoveAt(armaElegida); // Keep both lists synced
 
-                    // Si era la última casilla, pasa a la anterior
-                    if (armaElegida >= cardDeck.Count) armaElegida = Mathf.Max(0, cardDeck.Count - 1);
+                    if (armaElegida < cardW.Count)
+                    {
+                        cardW.RemoveAt(armaElegida);
+                    }
+
+                    // Si era la última casilla, selecciona la anterior.
+                    if (armaElegida >= cardDeck.Count)
+                    {
+                        armaElegida = Mathf.Max(0, cardDeck.Count - 1);
+                    }
                 }
             }
         }
-        else if (cardBase != null)
-        {
-            // Fallback to base infinite weapon when deck is empty
-            SpawnBullet(cardBase);
-        }
-    }
-
-    // Spawns the weapon's bullet at shootTrans and gives it the card's damage
-    void SpawnBullet(CardWeapon weapon)
-    {
-        if (weapon.bulletPrefab == null || shootTrans == null) return;
-
-        GameObject bulletObj = Instantiate(weapon.bulletPrefab, shootTrans.position, shootTrans.rotation);
-
-        BulletBasicDebug bullet = bulletObj.GetComponent<BulletBasicDebug>();
-        if (bullet != null) bullet.Damage = weapon.damage;
     }
 
     // Añade una carta al mazo con la munición llena. La usa la tienda
