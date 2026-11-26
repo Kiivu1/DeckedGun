@@ -1490,7 +1490,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponController
   inventory: {fileID: 377893912}
-  shootPoint: {fileID: 458566552}
+  pistolShootPoint: {fileID: 458566552}
+  shotgunShootPoint: {fileID: 458566552}
   playerCamera: {fileID: 2087599835}
   shotInterval: 0.3
   aimDistance: 50
@@ -1499,6 +1500,8 @@ MonoBehaviour:
     m_Bits: 4294967295
   rapidShotWindow: 0.4
   spreadPerShot: 0.5
+  pistolModel: {fileID: 144127585}
+  shotgunModel: {fileID: 402475180}
 --- !u!1 &1789190234
 GameObject:
   m_ObjectHideFlags: 0
