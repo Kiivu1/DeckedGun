@@ -33,7 +33,7 @@ public class EnemyHitbox : MonoBehaviour
     {
         // El collider de la bala está en un hijo (BulletBasic) y el script en el padre (BulletDebug),
         // por eso se busca el componente hacia arriba en la jerarquía
-        BulletBasicDebug bullet = other.GetComponentInParent<BulletBasicDebug>();
+        BulletParent bullet = other.GetComponentInParent<BulletParent>();
 
         // Si lo que ha entrado no es una bala (suelo, jugador...), lo ignoramos
         if (bullet == null) return;

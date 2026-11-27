@@ -1,22 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class BulletBasicDebug : MonoBehaviour
+public class BulletBasicDebug : BulletParent
 {
     [Header("Movement")]
     [SerializeField] private float speed = 10f;
-
-    [Header("Lifetime")]
-    [SerializeField] private float lifeTime = 3f; // Seconds before self-destruction
-
-    [Header("Damage")]
-    [SerializeField] private float damage = 10f; // Overwritten by the card that shoots it (CardWeapon.damage)
-
-    public float Damage
-    {
-        get => damage;
-        set => damage = value;
-    }
 
     void Start()
     {

@@ -10,11 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc74c503614322a93aa2236f14580984, type: 3}
-  m_Name: CardShotgun
+  m_Name: Card_5DMG
   m_EditorClassIdentifier: Assembly-CSharp::CardWeapon
-  cardName: Shotgun
-  cardDesc: ... its a Shotgun. you point at a direction, then you point at the other
+  cardName: Revolver
+  cardDesc: Its high on noon
   cardSprite: {fileID: 0}
-  cardValue: 100
+  cardValue: 50
   cardAmmoBase: 5
-  bulletPrefab: {fileID: 7321786511380070533, guid: e7e3ef7198caafd03b494fbfa9d64979, type: 3}
+  bulletPrefab: {fileID: 7321786511380070533, guid: 4de65de39b7dd81b3a6d8df103a1c1d5, type: 3}
+  damage: 5
+  weaponType: 2
+  projectilesPerShot: 1
+  baseSpreadAngle: 0.86
+  spreadAngle: 0.4

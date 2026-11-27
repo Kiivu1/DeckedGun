@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc74c503614322a93aa2236f14580984, type: 3}
+  m_Name: Card_3DMG
+  m_EditorClassIdentifier: Assembly-CSharp::CardWeapon
+  cardName: Gun
+  cardDesc: Your average gun.
+  cardSprite: {fileID: 0}
+  cardValue: 25
+  cardAmmoBase: 10
+  bulletPrefab: {fileID: 7321786511380070533, guid: 89abbd9accc46d46fb8d5751fe2ff11c, type: 3}
+  damage: 2
+  weaponType: 1
+  projectilesPerShot: 1
+  baseSpreadAngle: 1.99
+  spreadAngle: 2.72

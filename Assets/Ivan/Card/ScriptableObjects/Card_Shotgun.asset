@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc74c503614322a93aa2236f14580984, type: 3}
+  m_Name: Card_Shotgun
+  m_EditorClassIdentifier: Assembly-CSharp::CardWeapon
+  cardName: Shotgun
+  cardDesc: ... its a Shotgun. you point at a direction, then you point at the other
+  cardSprite: {fileID: 0}
+  cardValue: 100
+  cardAmmoBase: 5
+  bulletPrefab: {fileID: 7321786511380070533, guid: 05e9d0dc38faa1657a285b9bde193de9, type: 3}
+  damage: 20
+  weaponType: 3
+  projectilesPerShot: 5
+  baseSpreadAngle: 10.35
+  spreadAngle: 3.52

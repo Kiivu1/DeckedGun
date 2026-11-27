@@ -11,9 +11,18 @@ public class InventoryCard : MonoBehaviour
 
     public CardWeapon cardBase; // Fallback weapon when deck is empty
 
+
+    [Header("Reload")]
+    [SerializeField] private float maxReloadTimer;
+    [SerializeField] private float currReloadTimer;
+
+
     [Header("Debug")]
     public TMP_Text txt; 
     public CardWeapon debugCard;
+
+
+
 
     // Posición del mazo del arma que se está usando (0 = primera casilla). Se cambia con las teclas 1-9
     private int armaElegida = 0;

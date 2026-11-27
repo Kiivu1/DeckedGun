@@ -3,8 +3,10 @@ using System.Collections;
 
 public enum WeaponType
 {
-    Pistol,
-    Shotgun
+    Pistol,     //1 DMG
+    Gun,        //3 DMG
+    Revolver,   //5 DMG
+    Shotgun     //THE SHOTGUN
 }
 
 [CreateAssetMenu(fileName = "CardWeapon", menuName = "Cards/Item/Weapon")]
